@@ -3,7 +3,7 @@ from gym.spaces import Box
 import numpy as np
 import cv2
 import os
-from general_utils import AttrDict
+from sprites_datagen.general_utils import AttrDict
 from sprites_datagen.utils.template_blender import TemplateBlender
 
 

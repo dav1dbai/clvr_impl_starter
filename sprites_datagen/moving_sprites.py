@@ -2,12 +2,12 @@ import numpy as np
 import cv2
 from torch.utils.data import Dataset
 
-from general_utils import AttrDict
-from sprites_datagen.utils.template_blender import TemplateBlender
-from sprites_datagen.utils.trajectory import ConstantSpeedTrajectory
+from .general_utils import AttrDict
+from .utils.template_blender import TemplateBlender
+from .utils.trajectory import ConstantSpeedTrajectory
 
 
-class MovingSpriteDataset(Dataset):
+class MovingSpriteDataset(Dataset): 
     """Dataset of multiple sprites bouncing in frame, contains different reward annotations."""
     def __init__(self, spec):
         self._spec = spec
@@ -118,7 +118,7 @@ class DistractorTemplateMovingSpritesGenerator(TemplateMovingSpritesGenerator):
 if __name__ == '__main__':
     import cv2
     from general_utils import make_image_seq_strip
-    from sprites_datagen.rewards import ZeroReward
+    from rewards import ZeroReward
     spec = AttrDict(
         resolution=128,
         max_seq_len=30,
@@ -129,6 +129,8 @@ if __name__ == '__main__':
     )
     gen = DistractorTemplateMovingSpritesGenerator(spec)
     traj = gen.gen_trajectory()
+    # cv2.imwrite("traj0.png",traj.images[0])
+    # print(traj.states[0])
     img = make_image_seq_strip([traj.images[None, :, None].repeat(3, axis=2).astype(np.float32)], sep_val=255.0).astype(np.uint8)
     cv2.imwrite("test.png", img[0].transpose(1, 2, 0))
 
